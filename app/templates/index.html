@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <nav id="navbar">
+        <ul>
+            <li><a href="#welcome-section">Welcome</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="welcome-section">
+        <div class="welcome-content">
+            <h1>Welcome to My Portfolio</h1>
+            <p>Hi, I'm a third-year Artificial Intelligence student at UIT-VNUHCM</p>
+            <div class="typing-container">
+                <p>I'm passionate about <span id="typing-text"></span></p>
+            </div>
+            <p class="welcome-description">
+                Seeking an internship to apply my skills in Python, machine learning, and database management.
+                I'm eager to contribute to innovative AI-driven solutions within a dynamic team.
+            </p>
+            <a href="#projects" class="cta-button">View My Projects</a>
+        </div>
+        <div class="welcome-image">
+            <img src="{{ url_for('static', filename='images/profile-picture.jpg') }}" alt="Profile Picture">
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>My Projects</h2>
+        <div class="project-grid">
+            {% for project in projects %}
+            <div class="project-card project-tile" data-project-index="{{ loop.index0 }}">
+                <div class="project-image" style="background-image: url('{{ project.Image }}')" loading="lazy"></div>
+                <div class="project-info">
+                    <h3>{{ project['Project Name'] }}</h3>
+                    <p class="project-date">{{ project.Date }}</p>
+                    <p class="project-description">{{ project.Description[:100] }}...</p>
+                    <div class="project-tech">
+                        {% for tech in project['Technologies Used'].split(', ') %}
+                        <span class="tech-tag" data-tooltip="This is Python">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                    <button class="btn-details">View Details</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <p>I'm currently seeking internship opportunities in AI and machine learning. Let's connect!</p>
+        <div class="contact-form">
+            <form id="contact-form">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+        <div class="social-links">
+            <a href="https://github.com/FOX2920/" id="profile-link" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/s%C6%A1n-tr%E1%BA%A7n-thanh-58498a292/" target="_blank"><i
+                    class="fab fa-linkedin"></i></a>
+            <a href="mailto:21522557@gm.edu.vn"><i class="fas fa-envelope"></i></a>
+        </div>
+    </section>
+
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
