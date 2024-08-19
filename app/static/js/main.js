@@ -4,8 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalBody = document.getElementById('modal-body');
     const closeModal = document.querySelector('.close');
     const navbar = document.getElementById('navbar');
+    const contactForm = document.getElementById('contact-form');
 
-    if (!projectGrid || !modal || !modalBody || !closeModal || !navbar) {
+    if (!projectGrid || !modal || !modalBody || !closeModal || !navbar || !contactForm) {
         console.error('One or more elements are missing from the DOM.');
         return;
     }
@@ -26,10 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Modal fade-in animation
-    modalBody.style.animation = "fadeIn 0.3s";
-
-
     // Smooth scroll for navbar links
     document.querySelectorAll('#navbar a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -44,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target.classList.contains('btn-details')) {
             const projectCard = e.target.closest('.project-card');
             const projectIndex = projectCard.dataset.projectIndex;
-            console.log('Clicked project index:', projectIndex);  // Debugging line
             showProjectDetails(projectIndex);
         }
     });
@@ -60,17 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function showProjectDetails(index) {
-        console.log('Fetching project details for index:', index);
         fetch(`/project/${index}`)
             .then(response => {
-                console.log('Response status:', response.status);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
             .then(project => {
-                console.log('Project data:', project);
                 modalBody.innerHTML = `
                     <h2>${project['Project Name']}</h2>
                     <p><strong>Date:</strong> ${project.Date}</p>
@@ -108,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(card);
     });
 
+    // Typing effect
     const typingText = document.getElementById('typing-text');
     const phrases = ['AI development', 'machine learning', 'data analysis', 'innovative solutions', 'Python programming'];
     let phraseIndex = 0;
@@ -149,17 +143,23 @@ document.addEventListener('DOMContentLoaded', () => {
     typeEffect();
 
     // Contact form submission
-    const contactForm = document.getElementById('contact-form');
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const formData = new FormData(contactForm);
         const data = Object.fromEntries(formData);
 
-        // Here you would typically send the data to your server
-        console.log('Form submitted:', data);
-
-        // For now, we'll just show an alert
-        alert('Thank you for your message! I will get back to you soon.');
-        contactForm.reset();
+        fetch('/submit-contact', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(result => {
+            alert(result.message);
+            contactForm.reset();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
+        });
     });
 });
