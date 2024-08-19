@@ -255,6 +255,7 @@ body {
 /* Certifications Section Styles */
 #certifications {
     padding: 4rem 2rem;
+    background-color: var(--background-color);
 }
 
 .certification-list {
@@ -265,15 +266,30 @@ body {
 .certification-list li {
     background-color: white;
     margin-bottom: 1rem;
-    padding: 1rem;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .certification-list li:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cert-link {
+    display: block;
+    padding: 1rem;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.cert-link:hover {
+    color: var(--primary-color);
+}
+
+.cert-name {
+    font-weight: bold;
 }
 
 /* Contact Section Styles */
