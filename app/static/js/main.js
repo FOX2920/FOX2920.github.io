@@ -6,6 +6,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar');
     const contactForm = document.getElementById('contact-form');
 
+
+    const toggleDarkMode = document.querySelector('.dark-mode-toggle');
+    toggleDarkMode.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+    });
+    
+    // Scroll Animations
+    document.addEventListener("DOMContentLoaded", function() {
+        const elements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        });
+    
+        elements.forEach(element => observer.observe(element));
+    });
+
     if (!projectGrid || !modal || !modalBody || !closeModal || !navbar || !contactForm) {
         console.error('One or more elements are missing from the DOM.');
         return;
